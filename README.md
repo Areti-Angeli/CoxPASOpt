@@ -28,8 +28,7 @@ This repository includes all files needed to run and interpret the Cox-PASNet mo
 
 - **pt.xlsx**  
   → Pathway mapping file (gene-to-pathway associations) used to build the pathway mask.
-
----
+  
 
 ### Output Files (Generated After Model Training)
 
