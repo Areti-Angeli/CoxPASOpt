@@ -31,7 +31,7 @@ This repository includes all files needed to run and interpret the Cox-PASNet mo
 
 ---
 
-## Output Files (Generated After Model Training)
+### Output Files (Generated After Model Training)
 
 - **`lin_pred.csv`**  
   → Prognostic index for each sample. 
