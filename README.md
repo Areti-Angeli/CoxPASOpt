@@ -3,8 +3,8 @@
 Set up the Python environment manually using `conda` and `pip`:
 
 ```bash
-conda create -n areti python=3.10
-conda activate areti
+conda create -n my-env python=3.10
+conda activate my-env
 
 pip install jupyterlab
 pip install openpyxl
