@@ -8,32 +8,21 @@ Original file is located at
 """
 
 import os
-from google.colab import drive
-drive.mount("/content/drive/", force_remount=True)
-root_dir = "/content/drive/MyDrive/"
-project_folder = "trial"
-os.chdir(root_dir + project_folder)
+
 !pwd
 
 import os
 import pandas as pd
 import pickle #to save model
 
-df = pd.read_excel("pt.xlsx")
+df = pd.read_excel("../data/data_inputs/pt.xlsx")
 
 df['target_label'] = df['target_label'].str.split(';')
 
 df_n = df.explode("target_label").pivot_table(index="source_label", columns="target_label", aggfunc="size", fill_value=0).reset_index()
 df_n = df_n.set_index('source_label')
 
-df_n.to_excel("pt_fixed.xlsx")
-
-#Install NumPy 1.23.5
-!pip install numpy==1.23.5
-
-!pip install shap==0.42.0
-
-!pip install optuna==4.2.0
+df_n.to_excel("../data/data_outputs/pt_fixed.xlsx")
 
 import shap
 import optuna
@@ -484,9 +473,9 @@ def objective(trial):
     Pathway_Nodes = 300
     Out_Nodes = 2
 
-    train_x, train_ytime, train_yevent, train_age, train_feature_names = load_data("/content/drive/MyDrive/trial/TRAINING.xlsx", dtype)
-    eval_x, eval_ytime, eval_yevent, eval_age, eval_feature_names = load_data("/content/drive/MyDrive/trial/VALIDATION.xlsx", dtype)
-    pathway_mask = load_pathway("/content/drive/MyDrive/trial/pt_fixed.xlsx", dtype)
+    train_x, train_ytime, train_yevent, train_age, train_feature_names = load_data("/../data/data_inputs/TRAINING.xlsx", dtype)
+    eval_x, eval_ytime, eval_yevent, eval_age, eval_feature_names = load_data("/../data/data_inputs/VALIDATION.xlsx", dtype)
+    pathway_mask = load_pathway("/../data/data_outputs/pt_fixed.xlsx", dtype)
 
     In_Nodes = train_x.shape[1]  # Number of input nodes
 
@@ -635,10 +624,10 @@ Num_EPOCHS = 1166 # ------- added change to 1166 optimal (for some reason i had 
 Dropout_Rate = [0.5395475802317309, 0.33495212131376867] # ------- added
 
 ''' load data and pathway '''
-pathway_mask = load_pathway("/content/drive/MyDrive/trial/pt_fixed.xlsx", dtype)
-x, ytime, yevent, age, feature_names = load_data("/content/drive/MyDrive/trial/entire_data.xlsx", dtype) # --- feature_names added
+pathway_mask = load_pathway("/../data/data_outputs/pt_fixed.xlsx", dtype)
+x, ytime, yevent, age, feature_names = load_data("/../data/data_inputs/entire_data.xlsx", dtype) # --- feature_names added
 
-outpath = "/content/drive/MyDrive/trial/InterpretCoxPASNet.pt"
+outpath = "/../data/data_outputs/InterpretCoxPASNet.pt"
 
 '''train Cox-PASNet for model interpretation'''
 InterpretCoxPASNet(x, age, ytime, yevent, pathway_mask, \
@@ -658,10 +647,10 @@ w_sc1 = net.sc1.weight.data.cpu().detach().numpy()
 w_sc2 = net.sc2.weight.data.cpu().detach().numpy()
 w_sc3 = net.sc3.weight.data.cpu().detach().numpy()
 w_sc4 = net.sc4.weight.data.cpu().detach().numpy()
-np.savetxt("/content/drive/MyDrive/trial/w_sc1.csv", w_sc1, delimiter = ",")
-np.savetxt("/content/drive/MyDrive/trial/w_sc2.csv", w_sc2, delimiter = ",")
-np.savetxt("/content/drive/MyDrive/trial/w_sc3.csv", w_sc3, delimiter = ",")
-np.savetxt("/content/drive/MyDrive/trial/w_sc4.csv", w_sc4, delimiter = ",")
+np.savetxt("/../data/data_outputs/optuna_w_sc1.csv", w_sc1, delimiter = ",")
+np.savetxt("/../data/data_outputs/optuna_w_sc2.csv", w_sc2, delimiter = ",")
+np.savetxt("/../data/data_outputs/optuna_w_sc3.csv", w_sc3, delimiter = ",")
+np.savetxt("/../data/data_outputs/optuna_w_sc4.csv", w_sc4, delimiter = ",")
 # Forward pass for intermediate nodes
 pathway_node = net.tanh(net.sc1(x))
 hidden_node = net.tanh(net.sc2(pathway_node))
@@ -669,10 +658,10 @@ hidden_2_node = net.tanh(net.sc3(hidden_node))
 x_cat = torch.cat((hidden_2_node, age), 1)
 lin_pred = net.sc4(x_cat)
 
-np.savetxt("/content/drive/MyDrive/trial/pathway_node.csv", pathway_node.cpu().detach().numpy(), delimiter = ",")
-np.savetxt("/content/drive/MyDrive/trial/hidden_node.csv", hidden_node.cpu().detach().numpy(), delimiter = ",")
-np.savetxt("/content/drive/MyDrive/trial/hidden_2_node.csv", x_cat.cpu().detach().numpy(), delimiter = ",")
-np.savetxt("/content/drive/MyDrive/trial/lin_pred.csv", lin_pred.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("/../data/data_outputs/optuna_pathway_node.csv", pathway_node.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("/../data/data_outputs/optuna_hidden_node.csv", hidden_node.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("/../data/data_outputs/optuna_hidden_2_node.csv", x_cat.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("/../data/data_outputs/optuna_lin_pred.csv", lin_pred.cpu().detach().numpy(), delimiter = ",")
 
 """### Save the model"""
 
@@ -714,7 +703,7 @@ feature_names += ['OS_EVENT']
 
 # Generate SHAP summary plots
 shap.summary_plot(shap_values, x_combined, plot_type="bar", feature_names=feature_names, max_display=50, show=False)
-plt.savefig("/content/drive/MyDrive/trial/shap_summary_bar_50.svg")
+plt.savefig("/../data/data_outputs/optuna_shap_summary_bar_50.svg")
 
 shap.summary_plot(shap_values, x_combined, plot_type="bar", feature_names=feature_names, max_display=20, show=False)
-plt.savefig("/content/drive/MyDrive/trial/shap_summary_bar_20.svg")
+plt.savefig("/../data/data_outputs/optuna_shap_summary_bar_20.svg")

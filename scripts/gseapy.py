@@ -8,11 +8,7 @@ Original file is located at
 """
 
 import os
-from google.colab import drive
-drive.mount("/content/drive/", force_remount=True)
-root_dir = "/content/drive/MyDrive/"
-project_folder = "..."
-os.chdir(root_dir + project_folder)
+
 !pwd
 
 !pip install gseapy
@@ -123,7 +119,7 @@ import pandas as pd
 import gseapy as gp
 
 # Import gene_list as .txt file
-gene_list = pd.read_csv("gene_names_gseapy.txt", header=None)
+gene_list = pd.read_csv("/../data/data_inputs/gene_names_gseapy.txt", header=None)
 gene_list = gene_list.squeeze().str.strip().str.upper().tolist()
 
 """## Run EnrichR"""
