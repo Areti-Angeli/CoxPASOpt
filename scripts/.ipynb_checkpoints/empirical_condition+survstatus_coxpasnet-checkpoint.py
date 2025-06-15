@@ -62,9 +62,9 @@ Dropout_Rate = [0.7, 0.5]
 ''' load data and pathway '''
 pathway_mask = load_pathway("../data/data_outputs/pt_fixed.xlsx", dtype)
 
-x_train, ytime_train, yevent_train, age_train, feature_names_train = load_data("/../data/data_inputs/TRAINING.xlsx", dtype)
-x_valid, ytime_valid, yevent_valid, age_valid, feature_names_valid = load_data("/../data/data_inputs/VALIDATION.xlsx", dtype)
-x_test, ytime_test, yevent_test, age_test, feature_names_test = load_data("/../data/data_inputs/TEST.xlsx", dtype)
+x_train, ytime_train, yevent_train, age_train, feature_names_train = load_data("/../data/data_inputs/TRAINING_condition.xlsx", dtype)
+x_valid, ytime_valid, yevent_valid, age_valid, feature_names_valid = load_data("/../data/data_inputs/VALIDATION_condition.xlsx", dtype)
+x_test, ytime_test, yevent_test, age_test, feature_names_test = load_data("/../data/data_inputs/TEST_condition.xlsx", dtype)
 opt_l2_loss = 0
 opt_lr_loss = 0
 opt_loss = torch.Tensor([float("Inf")])
@@ -119,7 +119,7 @@ Dropout_Rate = [0.7, 0.5]
 
 ''' load data and pathway '''
 pathway_mask = load_pathway("/../data/data_outputs/pt_fixed.xlsx", dtype)
-x, ytime, yevent, age, condition, feature_names = load_data("/../data/data_inputs/entire_data.xlsx", dtype)
+x, ytime, yevent, age, condition, feature_names = load_data("/../data/data_inputs/entire_data_condition.xlsx", dtype)
 
 outpath = "/../data/data_outputs/empirical_InterpretCoxPASNet.pt"
 
