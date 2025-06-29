@@ -32,7 +32,9 @@ pip install jupyterlab openpyxl pandas==2.2.3 numba==0.56.4 numpy==1.23.5
 pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0
 pip install shap==0.42.0 optuna==4.2.0 matplotlib gseapy
 
-<!-- FILES OVERVIEW -->
+--- 
+
+---
 ## Files Overview
 
 ### Model Scripts (`./`)
@@ -61,3 +63,4 @@ pip install shap==0.42.0 optuna==4.2.0 matplotlib gseapy
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+---
