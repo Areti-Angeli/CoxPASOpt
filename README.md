@@ -62,5 +62,3 @@ pip install shap==0.42.0 optuna==4.2.0 matplotlib gseapy
 - **pathway_node.csv** – pathway activation scores for each patient.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
