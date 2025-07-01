@@ -13,7 +13,6 @@ This repository includes all files needed to run and interpret the Cox-PASNet mo
 
 ---
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MANUAL SETUP -->
 ## Manual Setup
