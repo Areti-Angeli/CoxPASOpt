@@ -45,9 +45,8 @@ pip install shap==0.42.0 optuna==4.2.0 matplotlib gseapy
 
 ### Model Scripts (`./`)
 - **empirical_surv_status_coxpasnet.py** – trains Cox‑PASNet on *survival‑status only* with empirical hyper‑parameters.
-- **optuna_surv_status_coxpasnet.py** – same as above, but hyper‑parameters are tuned via Optuna.
-- **empirical_condition+survstatus_coxpasnet.py** – trains on *condition + survival‑status* with empirical settings.
-- **optuna_condition+survstatus_coxpasnet.py** – identical covariates, but using Optuna optimisation.
+- **surv_status_covariate_analysis.py** - End‑to‑end pipeline that trains Cox‑PASNet on the **survival‑status (single covariate)** dataset with both empirical and Optuna‑optimised hyper‑parameters, saves the best model, and generates SHAP.
+- **dual_covariate_analysis.py** - Identical workflow, but uses the **Condition + Survival Status (dual covariate)** dataset.
 
 ### Config & Utility Files (`./configs/`)
 - **data_utils.py** – functions for loading and preprocessing data.
