@@ -3,7 +3,7 @@
 <h3 align="center">CoxPASOpt:&nbsp;Cox‑PASNet&nbsp;Survival&nbsp;Analysis&nbsp;Workflow</h3>
 
 <p align="center">
-  A self‑contained repository for training, evaluating &amp; interpreting <strong>Cox‑PASNet</strong> models with either empirical or <em>Optuna</em>‑optimised hyper‑parameters, SHAP feature importance, and pathway enrichment via GSEApy.
+  A self‑contained repository for training, evaluating &amp; interpreting <strong>Cox‑PASNet</strong> models with either empirical or <em>Optuna</em>‑optimised hyperparameters, SHAP feature importance, and pathway enrichment via GSEApy.
 </p>
 
 ---
