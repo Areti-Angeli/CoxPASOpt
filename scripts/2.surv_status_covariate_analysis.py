@@ -9,8 +9,6 @@ Original file is located at
 
 import os
 
-!pwd
-
 import os
 import pandas as pd
 import pickle 
@@ -467,7 +465,7 @@ def objective(trial):
     # Hyperparameter search spaces
     Learning_Rate = trial.suggest_loguniform('Learning_Rate',0.001, 0.1)
     L2 = trial.suggest_loguniform('L2', 0.001, 0.01)
-    Num_Epochs = trial.suggest_int('Num_Epochs', 10, 300)
+    Num_Epochs = trial.suggest_int('Num_Epochs', 10, 20)
     Dropout_Rate = [trial.suggest_uniform('dropout_rate_1', 0.0, 0.7), trial.suggest_uniform('dropout_rate_2', 0.0, 0.5)]
     Hidden_Nodes = 300
     Pathway_Nodes = 300
@@ -509,8 +507,8 @@ Out_Nodes = 2 ###number of hidden nodes in the last hidden layer
 ''' Initialize '''
 Initial_Learning_Rate = [0.03, 0.01, 0.001, 0.00075]
 L2_Lambda = [0.1, 0.01, 0.005, 0.001]
-num_epochs = 50 ###for grid search
-Num_EPOCHS = 50 ###for training
+num_epochs = 2 ###for grid search
+Num_EPOCHS = 2 ###for training
 ###sub-network setup
 Dropout_Rate = [0.7, 0.5]
 ''' load data and pathway '''
@@ -676,7 +674,7 @@ Out_Nodes = 1 ###number of hidden nodes in the last hidden layer, which is 1 and
 ''' Initialize with updated hyperparameters from Optuna ''' # ------- added
 Initial_Learning_Rate = 0.003471996594990395 # ------- added
 L2_Lambda = 0.0054560355247642595 # ------- added
-Num_EPOCHS = 1166 # ------- added change to 1166 optimal (for some reason i had 1500)
+Num_EPOCHS = 1 # ------- added change to 1166 optimal (for some reason i had 1500)
 Dropout_Rate = [0.5395475802317309, 0.33495212131376867] # ------- added
 
 ''' load data and pathway '''
@@ -773,7 +771,7 @@ Out_Nodes = 1 ###number of hidden nodes in the last hidden layer, which is 1 and
 ''' Initialize with updated hyperparameters from empirical search '''
 Initial_Learning_Rate = 0.01
 L2_Lambda =  0.005
-Num_EPOCHS = 1166
+Num_EPOCHS = 1
 Dropout_Rate = [0.7, 0.5]
 
 ''' load data and pathway '''

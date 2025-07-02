@@ -9,8 +9,6 @@ Original file is located at
 
 import os
 
-!pwd
-
 import os
 import pandas as pd
 import pickle
@@ -31,6 +29,7 @@ import math
 import copy
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
+import optuna
 
 import torch
 import torch.nn.functional as F
@@ -469,15 +468,15 @@ def objective(trial):
     # Hyperparameter search spaces
     Learning_Rate = trial.suggest_loguniform('Learning_Rate',0.001, 0.1)
     L2 = trial.suggest_loguniform('L2', 0.001, 0.01)
-    Num_Epochs = trial.suggest_int('Num_Epochs', 10, 300)
+    Num_Epochs = trial.suggest_int('Num_Epochs', 10, 20)
     Dropout_Rate = [trial.suggest_uniform('dropout_rate_1', 0.0, 0.7), trial.suggest_uniform('dropout_rate_2', 0.0, 0.5)]
     Hidden_Nodes = 300
     Pathway_Nodes = 300
     Out_Nodes = 2
 
-    train_x, train_ytime, train_yevent, train_age, _, _ = load_data("/../data/data_inputs/TRAINING_condition.xlsx", dtype)
-    eval_x, eval_ytime, eval_yevent, eval_age, _, _ = load_data("/../data/data_inputs/VALIDATION_condition.xlsx", dtype)
-    pathway_mask = load_pathway("/../data/data_outputs/pt_fixed.xlsx", dtype)
+    train_x, train_ytime, train_yevent, train_age, _, _ = load_data("../data/data_inputs/TRAINING_condition.xlsx", dtype)
+    eval_x, eval_ytime, eval_yevent, eval_age, _, _ = load_data("../data/data_inputs/VALIDATION_condition.xlsx", dtype)
+    pathway_mask = load_pathway("../data/data_outputs/pt_fixed.xlsx", dtype)
 
     In_Nodes = train_x.shape[1]  # Number of input nodes
 
@@ -511,16 +510,16 @@ Out_Nodes = 2 ###number of hidden nodes in the last hidden layer
 ''' Initialize '''
 Initial_Learning_Rate = [0.03, 0.01, 0.001, 0.00075]
 L2_Lambda = [0.1, 0.01, 0.005, 0.001]
-num_epochs = 50 ###for grid search
-Num_EPOCHS = 50 ###for training
+num_epochs = 2 ###for grid search
+Num_EPOCHS = 2 ###for training
 ###sub-network setup
 Dropout_Rate = [0.7, 0.5]
 ''' load data and pathway '''
 pathway_mask = load_pathway("pt_fixed.xlsx", dtype)
 
-x_train, ytime_train, yevent_train, age_train, feature_names_train = load_data("/../data/data_inputs/TRAINING_condition.xlsx", dtype)
-x_valid, ytime_valid, yevent_valid, age_valid, feature_names_valid = load_data("/../data/data_inputs/VALIDATION_condition.xlsx", dtype)
-x_test, ytime_test, yevent_test, age_test, feature_names_test = load_data("/../data/data_inputs/TEST_condition.xlsx", dtype)
+x_train, ytime_train, yevent_train, age_train, feature_names_train = load_data("../data/data_inputs/TRAINING_condition.xlsx", dtype)
+x_valid, ytime_valid, yevent_valid, age_valid, feature_names_valid = load_data("../data/data_inputs/VALIDATION_condition.xlsx", dtype)
+x_test, ytime_test, yevent_test, age_test, feature_names_test = load_data("../data/data_inputs/TEST_condition.xlsx", dtype)
 opt_l2_loss = 0
 opt_lr_loss = 0
 opt_loss = torch.Tensor([float("Inf")])
@@ -678,7 +677,7 @@ Out_Nodes = 1 ###number of hidden nodes in the last hidden layer
 ''' Initialize with updated hyperparameters from empirical search '''
 Initial_Learning_Rate = 0.01
 L2_Lambda =  0.005
-Num_EPOCHS = 1166
+Num_EPOCHS = 2
 Dropout_Rate = [0.7, 0.5]
 
 ''' load data and pathway '''
@@ -705,10 +704,10 @@ w_sc1 = net.sc1.weight.data.cpu().detach().numpy()
 w_sc2 = net.sc2.weight.data.cpu().detach().numpy()
 w_sc3 = net.sc3.weight.data.cpu().detach().numpy()
 w_sc4 = net.sc4.weight.data.cpu().detach().numpy()
-np.savetxt("/../data/data_outputs/dual_cov_empirical_w_sc1.csv", w_sc1, delimiter = ",")
-np.savetxt("/../data/data_outputs/dual_cov_empirical_w_sc2.csv", w_sc2, delimiter = ",")
-np.savetxt("/../data/data_outputs/dual_cov_empirical_w_sc3.csv", w_sc3, delimiter = ",")
-np.savetxt("/../data/data_outputs/dual_cov_empirical_w_sc4.csv", w_sc4, delimiter = ",")
+np.savetxt("../data/data_outputs/dual_cov_empirical_w_sc1.csv", w_sc1, delimiter = ",")
+np.savetxt("../data/data_outputs/dual_cov_empirical_w_sc2.csv", w_sc2, delimiter = ",")
+np.savetxt("../data/data_outputs/dual_cov_empirical_w_sc3.csv", w_sc3, delimiter = ",")
+np.savetxt("../data/data_outputs/dual_cov_empirical_w_sc4.csv", w_sc4, delimiter = ",")
 # Forward pass for intermediate nodes
 pathway_node = net.tanh(net.sc1(x))
 hidden_node = net.tanh(net.sc2(pathway_node))
@@ -716,17 +715,17 @@ hidden_2_node = net.tanh(net.sc3(hidden_node))
 x_cat = torch.cat((hidden_2_node, age), 1)
 lin_pred = net.sc4(x_cat)
 
-np.savetxt("/../data/data_outputs/dual_cov_empirical_pathway_node.csv", pathway_node.cpu().detach().numpy(), delimiter = ",")
-np.savetxt("/../data/data_outputs/dual_cov_empirical_hidden_node.csv", hidden_node.cpu().detach().numpy(), delimiter = ",")
-np.savetxt("/../data/data_outputs/dual_cov_empirical_hidden_2_node.csv", x_cat.cpu().detach().numpy(), delimiter = ",")
-np.savetxt("/../data/data_outputs/dual_cov_empirical_lin_pred.csv", lin_pred.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("../data/data_outputs/dual_cov_empirical_pathway_node.csv", pathway_node.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("../data/data_outputs/dual_cov_empirical_hidden_node.csv", hidden_node.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("../data/data_outputs/dual_cov_empirical_hidden_2_node.csv", x_cat.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("../data/data_outputs/dual_cov_empirical_lin_pred.csv", lin_pred.cpu().detach().numpy(), delimiter = ",")
 
 """### Shap analysis empirical"""
 
 ''' SHAP Analysis for Interpretability '''
 
 empirical_model = Cox_PASNet(In_Nodes, Pathway_Nodes, Hidden_Nodes, Out_Nodes, pathway_mask)
-empirical_model.load_state_dict(torch.load("/../data/data_outputs/dual_cov_empirical_InterpretCoxPASNet.pt"))
+empirical_model.load_state_dict(torch.load("../data/data_outputs/dual_cov_empirical_InterpretCoxPASNet.pt"))
 
 if torch.cuda.is_available():
     empirical_model.cuda()
@@ -755,10 +754,10 @@ feature_names += ['Condition']
 
 # Generate SHAP summary plots
 shap.summary_plot(shap_values_empirical, x_combined_empirical, plot_type="bar", feature_names=feature_names, max_display=50, show=False)
-plt.savefig("/../data/data_outputs/empirical_dual_cov_shap_summary_bar_50.svg")
+plt.savefig("../data/data_outputs/empirical_dual_cov_shap_summary_bar_50.svg")
 
 shap.summary_plot(shap_values_empirical, x_combined_empirical, plot_type="bar", feature_names=feature_names, max_display=20, show=False)
-plt.savefig("/../data/data_outputs/empirical_dual_cov_shap_summary_bar_20.svg")
+plt.savefig("../data/data_outputs/empirical_dual_cov_shap_summary_bar_20.svg")
 
 """### Run for interpret = Actual Run for Optuna"""
 
@@ -777,8 +776,8 @@ Num_EPOCHS = 1166
 Dropout_Rate = [0.5395475802317309, 0.33495212131376867]
 
 ''' load data and pathway '''
-pathway_mask = load_pathway("/../data/data_outputs/pt_fixed.xlsx", dtype)
-x, ytime, yevent, age, condition, feature_names = load_data("/../data/data_inputs/entire_data_condition.xlsx", dtype)
+pathway_mask = load_pathway("../data/data_outputs/pt_fixed.xlsx", dtype)
+x, ytime, yevent, age, condition, feature_names = load_data("../data/data_inputs/entire_data_condition.xlsx", dtype)
 
 outpath = "/../data/data_outputs/optuna_dual_cov_InterpretCoxPASNet.pt"
 
@@ -800,10 +799,10 @@ w_sc1 = net.sc1.weight.data.cpu().detach().numpy()
 w_sc2 = net.sc2.weight.data.cpu().detach().numpy()
 w_sc3 = net.sc3.weight.data.cpu().detach().numpy()
 w_sc4 = net.sc4.weight.data.cpu().detach().numpy()
-np.savetxt("/../data/data_outputs/optuna_dual_cov_w_sc1.csv", w_sc1, delimiter = ",")
-np.savetxt("/../data/data_outputs/optuna_dual_cov_w_sc2.csv", w_sc2, delimiter = ",")
-np.savetxt("/../data/data_outputs/optuna_dual_cov_w_sc3.csv", w_sc3, delimiter = ",")
-np.savetxt("/../data/data_outputs/optuna_dual_cov_w_sc4.csv", w_sc4, delimiter = ",")
+np.savetxt("../data/data_outputs/optuna_dual_cov_w_sc1.csv", w_sc1, delimiter = ",")
+np.savetxt("../data/data_outputs/optuna_dual_cov_w_sc2.csv", w_sc2, delimiter = ",")
+np.savetxt("../data/data_outputs/optuna_dual_cov_w_sc3.csv", w_sc3, delimiter = ",")
+np.savetxt("../data/data_outputs/optuna_dual_cov_w_sc4.csv", w_sc4, delimiter = ",")
 # Forward pass for intermediate nodes
 pathway_node = net.tanh(net.sc1(x))
 hidden_node = net.tanh(net.sc2(pathway_node))
@@ -811,17 +810,17 @@ hidden_2_node = net.tanh(net.sc3(hidden_node))
 x_cat = torch.cat((hidden_2_node, age), 1)
 lin_pred = net.sc4(x_cat)
 
-np.savetxt("/../data/data_outputs/optuna_dual_cov_pathway_node.csv", pathway_node.cpu().detach().numpy(), delimiter = ",")
-np.savetxt("/../data/data_outputs/optuna_dual_cov_hidden_node.csv", hidden_node.cpu().detach().numpy(), delimiter = ",")
-np.savetxt("/../data/data_outputs/optuna_dual_cov_hidden_2_node.csv", x_cat.cpu().detach().numpy(), delimiter = ",")
-np.savetxt("/../data/data_outputs/optuna_dual_cov_lin_pred.csv", lin_pred.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("../data/data_outputs/optuna_dual_cov_pathway_node.csv", pathway_node.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("../data/data_outputs/optuna_dual_cov_hidden_node.csv", hidden_node.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("../data/data_outputs/optuna_dual_cov_hidden_2_node.csv", x_cat.cpu().detach().numpy(), delimiter = ",")
+np.savetxt("../data/data_outputs/optuna_dual_cov_lin_pred.csv", lin_pred.cpu().detach().numpy(), delimiter = ",")
 
 """### Shap analysis Optuna"""
 
 ''' SHAP Analysis for Interpretability '''
 
 optuna_model = Cox_PASNet(In_Nodes, Pathway_Nodes, Hidden_Nodes, Out_Nodes, pathway_mask)
-optuna_model.load_state_dict(torch.load("/../data/data_outputs/optuna_dual_cov_InterpretCoxPASNet.pt"))
+optuna_model.load_state_dict(torch.load("../data/data_outputs/optuna_dual_cov_InterpretCoxPASNet.pt"))
 
 if torch.cuda.is_available():
     optuna_model.cuda()
@@ -850,7 +849,7 @@ feature_names += ['Condition']
 
 # Generate SHAP summary plots
 shap.summary_plot(shap_values_optuna, x_combined_optuna, plot_type="bar", feature_names=feature_names, max_display=50, show=False)
-plt.savefig("/../data/data_outputs/optuna_dual_cov_shap_summary_bar_50.svg")
+plt.savefig("../data/data_outputs/optuna_dual_cov_shap_summary_bar_50.svg")
 
 shap.summary_plot(shap_values_optuna, x_combined_optuna, plot_type="bar", feature_names=feature_names, max_display=20, show=False)
-plt.savefig("/../data/data_outputs/optuna_dual_cov_shap_summary_bar_20.svg")
+plt.savefig("../data/data_outputs/optuna_dual_cov_shap_summary_bar_20.svg")
