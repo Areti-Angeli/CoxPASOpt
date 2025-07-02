@@ -460,6 +460,8 @@ def trainCoxPASNet(train_x, train_age, train_ytime, train_yevent, \
 
 	return (train_loss, eval_loss, train_cindex, eval_cindex)
 
+print("Run Optuna")
+
 """### Optuna Hyperparameter search spaces"""
 
 # Define the Optuna objective function

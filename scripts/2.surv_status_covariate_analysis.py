@@ -498,6 +498,8 @@ if __name__ == "__main__":
 
 """## Empirical search"""
 
+print("Start Empirical")
+
 dtype = torch.FloatTensor
 ''' Net Settings'''
 In_Nodes = 2722 ###number of genes
@@ -551,6 +553,8 @@ loss_train, loss_test, c_index_tr, c_index_te = trainCoxPASNet(x_train, age_trai
 							opt_lr_loss, opt_l2_loss, Num_EPOCHS, Dropout_Rate)
 print("Optimal L2: ", opt_l2_loss, "Optimal LR: ", opt_lr_loss)
 print("C-index in Test: ", c_index_te)
+
+print("Start For Interpretation")
 
 """### Train for interpret"""
 
@@ -674,7 +678,7 @@ Out_Nodes = 1 ###number of hidden nodes in the last hidden layer, which is 1 and
 ''' Initialize with updated hyperparameters from Optuna ''' # ------- added
 Initial_Learning_Rate = 0.003471996594990395 # ------- added
 L2_Lambda = 0.0054560355247642595 # ------- added
-Num_EPOCHS = 1 # ------- added change to 1166 optimal (for some reason i had 1500)
+Num_EPOCHS = 1166 # ------- added change to 1166 optimal (for some reason i had 1500)
 Dropout_Rate = [0.5395475802317309, 0.33495212131376867] # ------- added
 
 ''' load data and pathway '''
@@ -771,7 +775,7 @@ Out_Nodes = 1 ###number of hidden nodes in the last hidden layer, which is 1 and
 ''' Initialize with updated hyperparameters from empirical search '''
 Initial_Learning_Rate = 0.01
 L2_Lambda =  0.005
-Num_EPOCHS = 1
+Num_EPOCHS = 50
 Dropout_Rate = [0.7, 0.5]
 
 ''' load data and pathway '''
