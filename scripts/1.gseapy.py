@@ -7,16 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1O8Kv-w8qqK2DgV0lebS9WCA5-rDYzsje
 """
 
-import os
-from google.colab import drive
-drive.mount("/content/drive/", force_remount=True)
-root_dir = "/content/drive/MyDrive/"
-project_folder = "gseapy"
-os.chdir(root_dir + project_folder)
-!pwd
-
-!pip install gseapy
-
 """## File input"""
 
 # Commented out IPython magic to ensure Python compatibility.
@@ -143,7 +133,7 @@ import pandas as pd
 import gseapy as gp
 
 # Import gene_list as .txt file
-gene_list = pd.read_csv("gene_names_gseapy.txt", header=None)
+gene_list = pd.read_csv("../data/data_inputs/gene_names_gseapy.txt", header=None)
 gene_list = gene_list.squeeze().str.strip().str.upper().tolist()
 
 """## Run EnrichR"""
