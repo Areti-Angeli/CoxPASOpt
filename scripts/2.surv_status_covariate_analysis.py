@@ -459,6 +459,7 @@ def trainCoxPASNet(train_x, train_age, train_ytime, train_yevent, \
 
 """## Optuna"""
 
+print("Starting Optuna hyperparameter tuning...")
 # Define the Optuna objective function
 
 def objective(trial):
@@ -498,7 +499,7 @@ if __name__ == "__main__":
 
 """## Empirical search"""
 
-print("Start Empirical")
+print("Starting Empirical Grid Search...")
 
 dtype = torch.FloatTensor
 ''' Net Settings'''
@@ -554,9 +555,10 @@ loss_train, loss_test, c_index_tr, c_index_te = trainCoxPASNet(x_train, age_trai
 print("Optimal L2: ", opt_l2_loss, "Optimal LR: ", opt_lr_loss)
 print("C-index in Test: ", c_index_te)
 
-print("Start For Interpretation")
+
 
 """### Train for interpret"""
+
 
 dtype = torch.FloatTensor
 
@@ -667,6 +669,8 @@ def InterpretCoxPASNet(x, age, ytime, yevent, pathway_mask, \
 
 """### Run for interpret = Actual Run for Optuna"""
 
+print(" Training best Optuna model on full dataset for interpretation...")
+
 dtype = torch.FloatTensor
 
 ''' Net Settings'''
@@ -725,6 +729,8 @@ np.savetxt("../data/data_outputs/optuna_lin_pred.csv", lin_pred.cpu().detach().n
 
 ''' SHAP Analysis for Interpretability '''
 
+print("Running SHAP analysis on best Optuna model...")
+
 optuna_model = Cox_PASNet(In_Nodes, Pathway_Nodes, Hidden_Nodes, Out_Nodes, pathway_mask)
 optuna_model.load_state_dict(torch.load("../data/data_outputs/optuna_InterpretCoxPASNet.pt"))
 
@@ -763,6 +769,7 @@ plt.savefig("../data/data_outputs/optuna_shap_summary_bar_20.svg")
 """### Run for interpret = Actual Run for Empirical search
 
 """
+print(" Training best Empirical model on full dataset for interpretation...")
 
 dtype = torch.FloatTensor
 
@@ -820,6 +827,8 @@ np.savetxt("../data/data_outputs/empirical_lin_pred.csv", lin_pred.cpu().detach(
 """## Shap analysis empirical"""
 
 ''' SHAP Analysis for Interpretability '''
+
+print("Running SHAP analysis on best Empirical model...")
 
 empirical_model = Cox_PASNet(In_Nodes, Pathway_Nodes, Hidden_Nodes, Out_Nodes, pathway_mask)
 empirical_model.load_state_dict(torch.load("../data/data_outputs/empirical_InterpretCoxPASNet.pt"))
