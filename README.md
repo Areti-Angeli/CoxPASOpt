@@ -16,7 +16,7 @@
 ---
 
 <!-- ABOUT -->
-This repository includes all files needed to run and interpret the Cox-PASNet model for survival analysis, using both empirical and Optuna-optimized hyperparameters. The workflow also includes SHAP-based feature importance and pathway enrichment analysis via GSEApy.
+This repository includes all files needed to run and interpret the CoxPASOpt model for survival analysis, using both empirical and Optuna-optimized hyperparameters. The workflow also includes SHAP-based feature importance and pathway enrichment analysis via GSEApy.
 
 ---
 
