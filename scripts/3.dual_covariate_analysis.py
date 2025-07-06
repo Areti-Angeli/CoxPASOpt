@@ -512,8 +512,8 @@ Out_Nodes = 2 ###number of hidden nodes in the last hidden layer
 ''' Initialize '''
 Initial_Learning_Rate = [0.03, 0.01, 0.001, 0.00075]
 L2_Lambda = [0.1, 0.01, 0.005, 0.001]
-num_epochs = 2 ###for grid search
-Num_EPOCHS = 2 ###for training
+num_epochs = 50 ###for grid search
+Num_EPOCHS = 50 ###for training
 ###sub-network setup
 Dropout_Rate = [0.7, 0.5]
 ''' load data and pathway '''
@@ -679,7 +679,7 @@ Out_Nodes = 1 ###number of hidden nodes in the last hidden layer
 ''' Initialize with updated hyperparameters from empirical search '''
 Initial_Learning_Rate = 0.01
 L2_Lambda =  0.005
-Num_EPOCHS = 2
+Num_EPOCHS = 50
 Dropout_Rate = [0.7, 0.5]
 
 ''' load data and pathway '''
@@ -774,7 +774,7 @@ Out_Nodes = 1 ###number of hidden nodes in the last hidden layer, which is 1 and
 ''' Initialize with updated hyperparameters from Optuna '''
 Initial_Learning_Rate = 0.003471996594990395
 L2_Lambda = 0.0054560355247642595
-Num_EPOCHS = 1166
+Num_EPOCHS = 50
 Dropout_Rate = [0.5395475802317309, 0.33495212131376867]
 
 ''' load data and pathway '''
