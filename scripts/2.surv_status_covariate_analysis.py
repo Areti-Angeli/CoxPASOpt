@@ -686,7 +686,7 @@ Num_EPOCHS = 50 # ------- added change to 1166 optimal
 Dropout_Rate = [0.5395475802317309, 0.33495212131376867] # ------- added
 
 ''' load data and pathway '''
-pathway_mask = load_pathway("/content/drive/MyDrive/trial/pt_fixed.xlsx", dtype)
+pathway_mask = load_pathway("../data/data_outputs/pt_fixed.xlsx", dtype)
 x, ytime, yevent, age, feature_names = load_data("../data/data_inputs/entire_data.xlsx", dtype) # --- feature_names added
 
 outpath = "../data/data_outputs/optuna_InterpretCoxPASNet.pt"
