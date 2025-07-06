@@ -517,7 +517,7 @@ Num_EPOCHS = 50 ###for training
 ###sub-network setup
 Dropout_Rate = [0.7, 0.5]
 ''' load data and pathway '''
-pathway_mask = load_pathway("pt_fixed.xlsx", dtype)
+pathway_mask = load_pathway("../data/data_outputs/pt_fixed.xlsx", dtype)
 
 x_train, ytime_train, yevent_train, age_train, feature_names_train = load_data("../data/data_inputs/TRAINING_condition.xlsx", dtype)
 x_valid, ytime_valid, yevent_valid, age_valid, feature_names_valid = load_data("../data/data_inputs/VALIDATION_condition.xlsx", dtype)
@@ -683,10 +683,10 @@ Num_EPOCHS = 50
 Dropout_Rate = [0.7, 0.5]
 
 ''' load data and pathway '''
-pathway_mask = load_pathway("/../data/data_outputs/pt_fixed.xlsx", dtype)
-x, ytime, yevent, age, condition, feature_names = load_data("/../data/data_inputs/entire_data_condition.xlsx", dtype)
+pathway_mask = load_pathway("../data/data_outputs/pt_fixed.xlsx", dtype)
+x, ytime, yevent, age, condition, feature_names = load_data("../data/data_inputs/entire_data_condition.xlsx", dtype)
 
-outpath = "/../data/data_outputs/dual_cov_empirical_InterpretCoxPASNet.pt"
+outpath = "../data/data_outputs/dual_cov_empirical_InterpretCoxPASNet.pt"
 
 '''train Cox-PASNet for model interpretation'''
 InterpretCoxPASNet(x, age, ytime, yevent, pathway_mask, \
@@ -781,7 +781,7 @@ Dropout_Rate = [0.5395475802317309, 0.33495212131376867]
 pathway_mask = load_pathway("../data/data_outputs/pt_fixed.xlsx", dtype)
 x, ytime, yevent, age, condition, feature_names = load_data("../data/data_inputs/entire_data_condition.xlsx", dtype)
 
-outpath = "/../data/data_outputs/optuna_dual_cov_InterpretCoxPASNet.pt"
+outpath = "../data/data_outputs/optuna_dual_cov_InterpretCoxPASNet.pt"
 
 '''train Cox-PASNet for model interpretation'''
 InterpretCoxPASNet(x, age, ytime, yevent, pathway_mask, \
