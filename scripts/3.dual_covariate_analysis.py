@@ -519,9 +519,9 @@ Dropout_Rate = [0.7, 0.5]
 ''' load data and pathway '''
 pathway_mask = load_pathway("../data/data_outputs/pt_fixed.xlsx", dtype)
 
-x_train, ytime_train, yevent_train, age_train, feature_names_train = load_data("../data/data_inputs/TRAINING_condition.xlsx", dtype)
-x_valid, ytime_valid, yevent_valid, age_valid, feature_names_valid = load_data("../data/data_inputs/VALIDATION_condition.xlsx", dtype)
-x_test, ytime_test, yevent_test, age_test, feature_names_test = load_data("../data/data_inputs/TEST_condition.xlsx", dtype)
+x_train, ytime_train, yevent_train, age_train, condition_train,feature_names_train = load_data("../data/data_inputs/TRAINING_condition.xlsx", dtype)
+x_valid, ytime_valid, yevent_valid, age_valid, condition_valid,feature_names_valid = load_data("../data/data_inputs/VALIDATION_condition.xlsx", dtype)
+x_test, ytime_test, yevent_test, age_test, condition_test,feature_names_test = load_data("../data/data_inputs/TEST_condition.xlsx", dtype)
 opt_l2_loss = 0
 opt_lr_loss = 0
 opt_loss = torch.Tensor([float("Inf")])
